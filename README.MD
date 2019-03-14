@@ -49,8 +49,6 @@ Rosrun
 
 	rosrun [package_name] [node_name]
 
-Keywords: roscore, rosnode, and rosrun
-
 ## Topics
 
 Show topic type
@@ -72,8 +70,8 @@ Services allow nodes to send a request and receive a response.
 
 ## Messages and services
 
-msg: msg files are simple text files that describe the fields of a ROS message. They are used to generate source code for messages in different languages. Stored in directory of a package.
-srv: an srv file describes a service. It is composed of two parts: a request and a response. Stored in the srv directory.
+msg: Msg files are simple text files that describe the fields of a ROS message. They are used to generate source code for messages in different languages. Stored in directory of a package.
+srv: An srv file describes a service. It is composed of two parts: a request and a response. Stored in the srv directory.
 
 Show a message
 
@@ -87,11 +85,47 @@ Example:
 
 	roscp rospy_tutorials AddTwoInts.srv srv/AddTwoInts.srv
 
+
+## Bags
+Record a topic and save the messages published to the topic in a bag.
+
+	rosbag record
+	rosbag record -a # records all topics
+
+Read bagfile
+
+	rosbag info <your bagfile>
+
+Play bagfile
+
+	rosbag play <your bagfile>
+
+## Simulation
+
+Run Rviz
+
+	rosrun rviz rviz
+
+Run Gazebo for ros
+
+	source /opt/ros/%YOUR_ROS_DISTRO%/setup.bash
+	roslaunch gazebo_ros empty_world.launch
+
+Possible augments for the gazebo launch file are mentioned in empty_world.launch
+
+	rosed gazebo_ros empty_world.launch
+
+Gazebo API notes:
+"The function approach would create a new public function that adjusts the velocity. For this to work, a new plugin would inherit from our current plugin. The child plugin would be instantiated by Gazebo instead of our current plugin, and would control the velocity by calling our function. This type of approach is most often used when interfacing Gazebo to ROS."
+From http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i5
+
 ## Source
 
-	daniel@daniel-Lenovo-Z50-75:~$ source catkin_ws/devel/setup.bash 
-	daniel@daniel-Lenovo-Z50-75:~$ roscd beginner_tutorials/
-	daniel@daniel-Lenovo-Z50-75:~/catkin_ws/src/beginner_tutorials$
+	source ~/catkin_ws/devel/setup.bash 
+
+Or when in the workspace directory:
+	
+	source devel/setup.bash 
 
 ## Links
 
@@ -103,3 +137,51 @@ rosws
 catkin
 
 	https://wiki.ros.org/catkin
+
+## Unit tests
+
+Run all tests
+
+	cd ~/catkin_ws
+	catkin_make run_tests
+
+Run one test
+
+	rostest [package_name] [test_launch_file]
+
+## Error handling
+
+Roswtf (Where's The Fire) diagnostic tool can find problems in ros configurations and ros applications
+
+	roswtf
+	roswtf myfile.launch
+
+## Environment variables
+
+ROS_ROOT sets the location where the ROS core packages are installed. 
+
+	export ROS_ROOT=/home/user/ros/ros
+	export PATH=$ROS_ROOT/bin:$PATH
+
+ROS_MASTER_URI tells nodes where they can locate the master
+
+	export ROS_MASTER_URI=http://mia:11311/
+
+PYTHONPATH
+
+	export PYTHONPATH=$PYTHONPATH:$ROS_ROOT/core/roslib/src
+
+
+ROS_PACKAGE_PATH. It's possible to add multiple paths when seperating them with :
+
+	export ROS_PACKAGE_PATH=/home/user/ros/ros-pkg:/another/path
+
+## Misc
+
+You can call a service with a remote procedure call.
+You can publish a topic and subscribe to it. The publisher then sends messages to the topic and any subscribers of the topic receives said messages.
+You can build a package with catkin_make, when entering the command in the workspace.
+You can record a topic and save the messages published to the topic in a bag.
+
+http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1256.pdf
+Conversion specifiers i bunden på side 289 og på nogle af de tidligere sider
